@@ -1,17 +1,20 @@
 import requests
-import json 
+import json
+import streamlit as st 
+
+st.secrets["MY_OTHER_SECRET"]
 
 class AIContentChecker:
     def __init__(self, text):
         self.text = text
-        self.url = 'https://s5.zerogpt.com/detectText'
+        self.url = st.secrets["MY_SECRET"]
         self.headers = {
             'Accept': 'application/json, text/plain, */*',
             'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
             'Connection': 'keep-alive',
             'Content-Type': 'application/json',
-            'Origin': 'https://www.zerogpt.com',
-            'Referer': 'https://www.zerogpt.com/',
+            'Origin': st.secrets["MY_OTHER_SECRET"],
+            'Referer': st.secrets["MY_OTHER_SECRET"],
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-site',
@@ -29,4 +32,4 @@ class AIContentChecker:
         response = requests.post(self.url, headers=self.headers, json=data).json()
         self.real, self.fake = response['robertaScoreParagraph']['real']*100, response['robertaScoreParagraph']['fake']*100
         self.response = response
-        
+
